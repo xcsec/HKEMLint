@@ -1,0 +1,26 @@
+card_id,author_A_group,author_B_group,same_group_in_final,disagreement_note
+C1,G1,G1,yes,
+C2,G1,G1,yes,
+C3,G2,G2,yes,
+C4,G2,G3,yes,Author B initially grouped C4 with C5 (context binding); resolved: C4 concerns combiner strength not context
+C5,G3,G3,yes,
+C6,G3,G3,yes,
+C7,G3,G3,yes,
+C8,G4,G4,yes,
+C9,G4,G4,yes,
+C10,G4,G4,yes,
+C11,G5,G5,yes,
+C12,G5,G6,yes,Author B initially grouped C12 with C13 (both mention seeds/intermediates); resolved: C12 is randomness isolation not zeroization
+C13,G6,G6,yes,
+C14,G6,G6,yes,
+C15,G7,G7,yes,
+C16,G7,G9,yes,Author B initially grouped C16 with C21 (both ephemeral key lifecycle); resolved: split by encaps vs decaps phase
+C17,G7,G7,yes,
+C18,G8,G8,yes,
+C19,G8,G8,yes,
+C20,G9,G9,yes,
+C21,G9,G9,yes,
+C22,G9,G9,yes,
+C23,G10,G10,yes,
+C24,G10,G10,yes,
+C25,G10,G10,yes,

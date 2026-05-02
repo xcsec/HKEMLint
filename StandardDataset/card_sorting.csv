@@ -1,0 +1,11 @@
+risk_id,phase,risk_name,cards,requirements,author_A_group,author_B_group,agreement
+S1-1,P1,Parameter Mismatch,"C1,C2","R1,R8",G1,G1,agree
+S2-1,P2,Weak Combiner,"C3,C4","R2",G2,G2,agree
+S2-2,P2,Missing Context Binding,"C5,C6,C7","R3,R9,R14",G3,G3,agree
+S3-1,P3,Key Domain Violation,"C8,C9,C10","R10,R11,R12",G4,G4,agree
+S3-2,P3,Shared Seed Without KDF,"C11,C12","R13",G5,G5,agree
+S4-1,P4,Undestroyed Intermediate on Half-Success (Encaps),"C13,C14","R4,R5",G6,G6,agree
+S4-2,P4,Undestroyed Intermediate on Completion (Encaps),"C15,C16,C17","R4,R5,R6",G7,G7,agree
+S5-1,P5,Undestroyed Intermediate on Half-Success (Decaps),"C18,C19","R4,R5",G8,G8,agree
+S5-2,P5,Undestroyed Intermediate on Completion (Decaps),"C20,C21,C22","R4,R5,R6",G9,G9,agree
+S6-1,cross-phase,Silent Single-KEM Fallback,"C23,C24,C25","R7,R15,R16",G10,G10,agree

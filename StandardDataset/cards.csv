@@ -1,0 +1,26 @@
+card_id,req_id,author,implementation_scenario,preliminary_label
+C1,R1,A,"A hybrid named group (e.g., X25519MLKEM768) is mapped to component algorithms whose security level does not match the group specification (e.g., using P-384 instead of X25519).",Parameter mismatch in group-to-component binding
+C2,R8,A,"A component KEM or KDF does not meet the interface or security requirements mandated by the combiner framework (e.g., wrong output length, non-compliant KDF).",Component interface non-compliance
+C3,R2,A,"The combiner function used to merge two component shared secrets is not proven to generically preserve IND-CCA security (e.g., using XOR instead of HKDF).",Non-IND-CCA-preserving combiner
+C4,R2,B,"Raw concatenation of K_1 || K_2 is used as the final shared secret with no downstream KDF, violating the generic IND-CCA preservation requirement.",Raw concatenation without KDF
+C5,R3,A,"The combiner output is computed as H(K_1 || K_2) without binding ciphertext (c_1, c_2), public keys (ek_1, ek_2), or a domain separator.",Missing context binding in combiner input
+C6,R9,B,"The hybrid KEM instantiation does not include a registered label string in its combiner, risking collision with other instantiations.",Missing combiner label / domain separator
+C7,R14,B,"The key-agreement material binding block (MB) does not include the component public keys and ciphertexts when more than two schemes are composed.",Incomplete material binding
+C8,R10,A,"The same classical key pair is used in both a hybrid KEM context and a standalone (non-hybrid) key exchange within the same protocol session.",Hybrid/non-hybrid key reuse
+C9,R11,B,"A component key pair generated for a specific hybrid algorithm (e.g., X25519MLKEM768) is extracted and used separately with its standalone algorithm.",Component key extraction from hybrid context
+C10,R12,A,"A pre-existing standalone classical key pair is imported and reused inside a hybrid KEM, violating the requirement for dedicated hybrid key generation.",External key imported into hybrid KEM
+C11,R13,A,"A single CSPRNG seed is expanded via a PRG to provide input randomness for both the traditional and PQC key generation, with adequate bit-security and proper KDF domain separation.",Shared seed with proper KDF expansion
+C12,R13,B,"A single CSPRNG seed is directly split by byte offset (e.g., seed[:32] and seed[32:]) and passed to the two component key generation algorithms without KDF expansion.",Direct seed slicing without KDF
+C13,R4,A,"During composite encapsulation, if Pi_2.Encaps fails after Pi_1.Encaps has already produced K_1, the value K_1 is not explicitly zeroized on the error path.",Leaked K_1 on encaps half-failure
+C14,R5,B,"On the error-handling path after a failed PQC encapsulation, the classical component shared secret buffer is freed without secure zeroization (e.g., free() instead of OPENSSL_cleanse()).",Insecure deallocation of K_1 on encaps error
+C15,R4,A,"After both component encapsulations succeed and the combiner produces K, the intermediate values K_1 and K_2 are not destroyed before the function returns.",Persistent intermediates after encaps completion
+C16,R6,B,"The ephemeral key pair used during encapsulation is retained after the shared secret has been derived, allowing potential reuse in a subsequent session.",Ephemeral key not destroyed after encaps
+C17,R5,A,"In a garbage-collected language (Go, Java), the component shared secret buffers from encapsulation are not explicitly zeroized and may persist on the heap until GC reclaims them.",GC-delayed zeroization of encaps intermediates
+C18,R4,A,"During composite decapsulation, if Pi_2.Decaps fails after Pi_1.Decaps has already produced K_1', the value K_1' is not explicitly zeroized on the error path.",Leaked K_1' on decaps half-failure
+C19,R5,B,"On the error-handling path after a failed PQC decapsulation, the classical component shared secret buffer is freed without secure zeroization.",Insecure deallocation of K_1' on decaps error
+C20,R4,A,"After both component decapsulations succeed and the combiner produces K', the intermediate values K_1' and K_2' are not destroyed before the function returns.",Persistent intermediates after decaps completion
+C21,R6,B,"The decapsulation key is not destroyed after a single decapsulation execution, allowing the same key to be used across multiple sessions.",Decapsulation key not destroyed after use
+C22,R5,A,"In a garbage-collected language, the component shared secret buffers from decapsulation persist on the heap and are not deterministically zeroized.",GC-delayed zeroization of decaps intermediates
+C23,R7,A,"The hybrid protocol implementation silently falls back to a classical-only shared secret when the PQC component fails, rather than aborting the handshake, enabling a downgrade attack.",Silent classical-only fallback
+C24,R15,B,"The receiver (A) does not terminate the key-establishment process when one of the component ReceiveFunc operations returns an error indicator, allowing the protocol to continue with partial key material.",Receiver does not abort on component error
+C25,R16,B,"The responder (B) does not terminate the key-establishment process when one of the component ResponseFunc operations returns an error indicator.",Responder does not abort on component error

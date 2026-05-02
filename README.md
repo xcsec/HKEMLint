@@ -1,9 +1,9 @@
-# HybridLint
+# HKEMLint
 
-A static analysis tool for detecting security property violations in hybrid Key Encapsulation Mechanism (KEM) implementations. HybridLint constructs inter-procedural Code Property Graphs (CPGs) and performs graph-based vulnerability detection across C, C++, Go, Rust, and Java codebases.
+A static analysis tool for detecting security property violations in hybrid Key Encapsulation Mechanism (KEM) implementations. HKEMLint constructs inter-procedural Code Property Graphs (CPGs) and performs graph-based vulnerability detection across C, C++, Go, Rust, and Java codebases.
 
 ## DataSet for Paper
-Due to the large size of the dataset (2 GiB), we have uploaded it to IPFS (InterPlanetary File System) to allow reliable and decentralized access. The dataset can be downloaded using the following IPFS link:
+Due to the large size of the dataset (2 GiB), we have uploaded it to IPFS (InterPlanetary File System) to allow reliable and decentralized access. The dataset can be downloaded using the following IPFS link:
 https://bafybeidstd6k4pxqrtp2f756nuvfamllhdygpdew3nt63py5hvxpstv54u.ipfs.dweb.link?filename=DataSet.zip
 
 
@@ -30,13 +30,13 @@ pip install -e ".[neo4j]"
 ### Scan a project
 
 ```bash
-hybridlint scan <project_path>
+hkemlint scan <project_path>
 ```
 
 Example:
 
 ```bash
-hybridlint scan ./hybrid_kem_projects/wolfssl
+hkemlint scan ./DataSet/wolfssl
 ```
 
 ### Options
@@ -47,8 +47,6 @@ hybridlint scan ./hybrid_kem_projects/wolfssl
 | `--format json` | Output results as JSON (default: `text`) |
 | `--backend neo4j` | Use Neo4j/Cypher backend instead of in-memory NetworkX |
 | `--neo4j-uri` | Neo4j bolt URI (default: `bolt://localhost:7687`) |
-| `--neo4j-user` | Neo4j username (default: `neo4j`) |
-| `--neo4j-password` | Neo4j password (default: `neo4j`) |
 | `--include-tests` | Include test files in the scan |
 | `-v` / `--verbose` | Show hybrid site details and UNCERTAIN findings |
 
@@ -56,27 +54,27 @@ hybridlint scan ./hybrid_kem_projects/wolfssl
 
 ```bash
 # Scan with JSON output
-hybridlint scan ./project --format json
+hkemlint scan ./project --format json
 
 # Only check combiner and zeroization rules
-hybridlint scan ./project --rule S2,S4,S5
+hkemlint scan ./project --rule S2,S4,S5
 
 # Use Neo4j backend with Cypher pattern-matching
-hybridlint scan ./project --backend neo4j
+hkemlint scan ./project --backend neo4j
 
 # Show all detected hybrid sites
-hybridlint locate ./project
+hkemlint locate ./project
 ```
 
 ### Run as a Python module
 
 ```bash
-python -m hybridlint scan <project_path>
+python -m hkemlint scan <project_path>
 ```
 
 ## Vulnerability Taxonomy
 
-HybridLint detects 10 vulnerability types across 6 categories:
+HKEMLint detects 10 vulnerability types across 6 categories:
 
 | Rule | Description |
 |------|-------------|
@@ -93,7 +91,7 @@ HybridLint detects 10 vulnerability types across 6 categories:
 
 ## How It Works
 
-HybridLint operates in three phases:
+HKEMLint operates in three phases:
 
 1. **Site Location** — Tree-sitter parses source files; keyword matching identifies functions containing hybrid KEM code.
 2. **CPG Construction & Labeling** — We leverage the [Fraunhofer AISEC CPG library](https://github.com/Fraunhofer-AISEC/cpg) to construct inter-procedural Code Property Graphs for C/C++, Go, TypeScript, and Python via native frontends, and for Rust via its LLVM IR frontend. The resulting graph (with `:EOG`, `:DFG`, `:AST` edges) is pushed into Neo4j, then projected into our analysis schema. A two-pass Cypher labeler assigns operation labels (`PARAM`, `KEYGEN`, `ENCAP`, `DECAP`, `COMBINER`) and value labels (`ek_1`, `ek_2`, `dk_1`, `dk_2`, `c_1`, `c_2`, `K_1`, `K_2`, `K`) to CPG nodes via `SET` statements.
@@ -120,7 +118,7 @@ export CPG_NEO4J_BIN=/path/to/cpg/cpg-neo4j/build/install/cpg-neo4j/bin/cpg-neo4
 
 Requirements: Java >= 21, Neo4j >= 5 with APOC plugin.
 
-If the Fraunhofer CPG binary is not available, HybridLint automatically falls back to its built-in tree-sitter CPG builder.
+If the Fraunhofer CPG binary is not available, HKEMLint automatically falls back to its built-in tree-sitter CPG builder.
 
 ### Neo4j Graph Schema
 
