@@ -2,10 +2,18 @@
 
 A static analysis tool for detecting security property violations in hybrid Key Encapsulation Mechanism (KEM) implementations. HKEMLint constructs inter-procedural Code Property Graphs (CPGs) and performs graph-based vulnerability detection across C, C++, Go, Rust, and Java codebases.
 
-## DataSet for Paper
-Due to the large size of the dataset (2 GiB), we have uploaded it to IPFS (InterPlanetary File System) to allow reliable and decentralized access. The dataset can be downloaded using the following IPFS link:
-https://bafybeidstd6k4pxqrtp2f756nuvfamllhdygpdew3nt63py5hvxpstv54u.ipfs.dweb.link?filename=DataSet.zip
+## Standard Dataset
 
+The `StandardDataset/` directory contains the data used to derive the 10 security risk types (S1-1 through S6-1) described in the paper. Two authors independently extracted 16 requirements from three standards, wrote 25 risk cards, and performed open card sorting to produce the final taxonomy.
+
+
+## Evaluation Dataset
+
+Due to the large size of the evaluation dataset (2 GiB), we have uploaded it to IPFS for decentralized access. It can also be found in the `DataSet/` directory.
+
+IPFS link: https://bafybeidstd6k4pxqrtp2f756nuvfamllhdygpdew3nt63py5hvxpstv54u.ipfs.dweb.link?filename=DataSet.zip
+
+The dataset contains 41 open-source hybrid KEM implementations, including wolfSSL, BoringSSL, AWS-LC, OpenSSL, Go crypto/tls, libsignal, Mullvad VPN, and others.
 
 ## Installation
 
